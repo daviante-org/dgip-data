@@ -1,0 +1,36 @@
+DGIP-DATA LICENSING
+===================
+
+Copyright 2026 Daviante (https://daviante.org)
+
+This repository distributes two categories of material under standard open licenses:
+
+1. COMPILED DATASETS (*.csv.gz, *.mmdb, bundle.tar.gz, manifest.json)
+---------------------------------------------------------------------
+To the extent that Daviante holds any copyright, database right, or sui generis
+extraction right in the compiled IP range, Autonomous System, and country-level
+geolocation tables published in this repository's releases, Daviante dedicates
+those compiled datasets to the public domain worldwide under the Open Data
+Commons Public Domain Dedication and License (PDDL) v1.0:
+
+    https://opendatacommons.org/licenses/pddl/1-0/
+
+Underlying allocation and routing records originate from public Regional Internet
+Registry (RIR) delegation statistics (ARIN, RIPE NCC, APNIC, LACNIC, AFRINIC)
+and the RIPE NCC Routing Information Service (RIS), subject to their respective
+public data terms documented in DATA_POLICY.md.
+
+
+2. SOFTWARE, WORKFLOWS, AND DOCUMENTATION
+-----------------------------------------
+All verification scripts, GitHub Actions workflows, schema specifications, and
+documentation files in this repository are licensed under the Apache License,
+Version 2.0 (the "License"); you may not use these files except in compliance
+with the License. You may obtain a copy of the License at:
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software and data
+distributed under these licenses are distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See TERMS.md
+and the License for specific language governing permissions and limitations.

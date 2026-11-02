@@ -1,0 +1,10 @@
+# Local build outputs and Python artifacts
+dist/
+build/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.DS_Store
+Thumbs.db

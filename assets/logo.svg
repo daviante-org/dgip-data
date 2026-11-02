@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 276 56" width="276" height="56">
+  <defs>
+    <!-- Primary Enterprise Crimson Gradient -->
+    <linearGradient id="dg-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F43F5E" />
+      <stop offset="50%" stop-color="#E11D48" />
+      <stop offset="100%" stop-color="#9F1239" />
+    </linearGradient>
+
+    <!-- Subtle Top-Down Specular Highlight for Container -->
+    <linearGradient id="dg-border" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.0" />
+    </linearGradient>
+
+    <!-- Left Illuminated Storage Facet -->
+    <linearGradient id="tier-left" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#FFE4E6" />
+    </linearGradient>
+
+    <!-- Right Shaded Storage Facet (3D Isometric Bevel) -->
+    <linearGradient id="tier-right" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FECDD3" />
+      <stop offset="100%" stop-color="#FDA4AF" />
+    </linearGradient>
+
+    <!-- Top Platter Surface Gradient -->
+    <linearGradient id="tier-top" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#FECDD3" />
+    </linearGradient>
+
+    <!-- Soft Drop Shadow for Isometric Stack -->
+    <filter id="mark-shadow" x="-15%" y="-15%" width="130%" height="135%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#881337" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- ICON MARK (44x44 Squircle anchored at x=6, y=6) -->
+  <g transform="translate(6, 6)">
+    <!-- Base Squircle -->
+    <rect width="44" height="44" rx="12" fill="url(#dg-bg)" />
+    <!-- Inner Bevel Highlight -->
+    <rect x="0.5" y="0.5" width="43" height="43" rx="11.5" fill="none" stroke="url(#dg-border)" stroke-width="1" />
+
+    <!-- Subtle Background Meridian Grid -->
+    <g stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="1" fill="none">
+      <circle cx="22" cy="22" r="16" />
+      <line x1="6" y1="22" x2="38" y2="22" />
+    </g>
+
+    <!-- 3D Isometric Geo-Database Stack -->
+    <g filter="url(#mark-shadow)">
+      <!-- TIER 3 (Bottom Data Layer) -->
+      <path d="M 9,26.5 L 22,33 L 22,38 L 9,31.5 Z" fill="url(#tier-left)" />
+      <path d="M 35,26.5 L 22,33 L 22,38 L 35,31.5 Z" fill="url(#tier-right)" />
+
+      <!-- TIER 2 (Middle Subnet Layer) -->
+      <path d="M 9,19.5 L 22,26 L 22,31 L 9,24.5 Z" fill="url(#tier-left)" />
+      <path d="M 35,19.5 L 22,26 L 22,31 L 35,24.5 Z" fill="url(#tier-right)" />
+
+      <!-- TIER 1 (Top Platter + Geo Coordinate Target) -->
+      <path d="M 22,6.5 L 35,13 L 22,19.5 L 9,13 Z" fill="url(#tier-top)" />
+      <path d="M 9,13 L 22,19.5 L 22,24 L 9,17.5 Z" fill="url(#tier-left)" />
+      <path d="M 35,13 L 22,19.5 L 22,24 L 35,17.5 Z" fill="url(#tier-right)" />
+
+      <!-- Embedded GeoIP Target on Top Platter -->
+      <ellipse cx="22" cy="13" rx="6.5" ry="3.2" fill="#9F1239" />
+      <ellipse cx="22" cy="13" rx="2.8" ry="1.4" fill="#FFFFFF" />
+
+      <!-- Status LED Indicators on Left Facets -->
+      <circle cx="12.5" cy="22.8" r="1" fill="#9F1239" opacity="0.6" />
+      <circle cx="12.5" cy="29.8" r="1" fill="#9F1239" opacity="0.6" />
+    </g>
+  </g>
+
+  <!-- ENTERPRISE WORDMARK (Light Mode): dgip-data. -->
+  <g transform="translate(64, 38)" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+    <text font-size="30" letter-spacing="-0.8">
+      <tspan fill="#0F172A" font-weight="700">dg</tspan><tspan fill="#334155" font-weight="600">ip</tspan><tspan fill="#E11D48" font-weight="700">-</tspan><tspan fill="#64748B" font-weight="500" font-size="26">data</tspan><tspan fill="#E11D48" font-weight="900">.</tspan>
+    </text>
+  </g>
+</svg>

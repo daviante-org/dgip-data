@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- Primary Enterprise Crimson Gradient -->
+    <linearGradient id="fav-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F43F5E" />
+      <stop offset="50%" stop-color="#E11D48" />
+      <stop offset="100%" stop-color="#9F1239" />
+    </linearGradient>
+
+    <!-- Specular Squircle Rim -->
+    <linearGradient id="fav-border" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0.0" />
+    </linearGradient>
+
+    <!-- Left Illuminated Storage Facet -->
+    <linearGradient id="fav-tier-left" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#FFE4E6" />
+    </linearGradient>
+
+    <!-- Right Shaded Storage Facet -->
+    <linearGradient id="fav-tier-right" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FECDD3" />
+      <stop offset="100%" stop-color="#FDA4AF" />
+    </linearGradient>
+
+    <!-- Top Platter Surface Gradient -->
+    <linearGradient id="fav-tier-top" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#FECDD3" />
+    </linearGradient>
+  </defs>
+
+  <!-- Full-Bleed 64x64 App Squircle (optically tuned for 16px-64px favicons) -->
+  <rect width="64" height="64" rx="16" fill="url(#fav-bg)" />
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="15.25" fill="none" stroke="url(#fav-border)" stroke-width="1.5" />
+
+  <!-- 3D Isometric Geo-Database Stack (scaled & simplified for small-size legibility) -->
+  <g>
+    <!-- TIER 3 (Bottom Data Layer) -->
+    <path d="M 12,38.5 L 32,48.5 L 32,56 L 12,46 Z" fill="url(#fav-tier-left)" />
+    <path d="M 52,38.5 L 32,48.5 L 32,56 L 52,46 Z" fill="url(#fav-tier-right)" />
+
+    <!-- TIER 2 (Middle Subnet Layer) -->
+    <path d="M 12,28.5 L 32,38.5 L 32,45.5 L 12,35.5 Z" fill="url(#fav-tier-left)" />
+    <path d="M 52,28.5 L 32,38.5 L 32,45.5 L 52,35.5 Z" fill="url(#fav-tier-right)" />
+
+    <!-- TIER 1 (Top Platter + Geo Coordinate Target) -->
+    <path d="M 32,9 L 52,19 L 32,29 L 12,19 Z" fill="url(#fav-tier-top)" />
+    <path d="M 12,19 L 32,29 L 32,35.5 L 12,25.5 Z" fill="url(#fav-tier-left)" />
+    <path d="M 52,19 L 32,29 L 32,35.5 L 52,25.5 Z" fill="url(#fav-tier-right)" />
+
+    <!-- High-Contrast Embedded GeoIP Target on Top Platter -->
+    <ellipse cx="32" cy="19" rx="9.8" ry="4.8" fill="#881337" />
+    <ellipse cx="32" cy="19" rx="4.2" ry="2.1" fill="#FFFFFF" />
+  </g>
+</svg>

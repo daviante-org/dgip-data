@@ -1,0 +1,149 @@
+name: Weekly IP Dataset Release
+
+on:
+  schedule:
+    # Runs every Monday at 02:30 UTC (30 minutes after DGIP's 02:00 UTC weekly snapshot job)
+    - cron: "30 2 * * 1"
+  workflow_dispatch:
+    inputs:
+      dgip_api_url:
+        description: "Override DGIP API base URL (defaults to vars.DGIP_API_URL or https://dgip.daviante.org)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: dgip-weekly-release
+  cancel-in-progress: false
+
+jobs:
+  publish-snapshot:
+    name: Fetch, Verify & Publish DGIP Snapshot
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      API_BASE_URL: ${{ inputs.dgip_api_url || vars.DGIP_API_URL || 'https://dgip.daviante.org' }}
+
+    steps:
+      - name: Checkout dgip-data
+        uses: actions/checkout@v7
+
+      - name: Check latest snapshot on DGIP API
+        id: check
+        shell: bash
+        run: |
+          set -euo pipefail
+          API="${API_BASE_URL%/}"
+          echo "Querying ${API}/v1/snapshots/latest ..."
+          curl -fsSL --retry 3 --retry-delay 5 "${API}/v1/snapshots/latest" -o /tmp/latest_snapshot.json
+
+          VERSION="$(python3 -c 'import json; d=json.load(open("/tmp/latest_snapshot.json")); print(d["version"])')"
+          TITLE="$(python3 -c 'import json; d=json.load(open("/tmp/latest_snapshot.json")); print(d["release_title"])')"
+
+          if [[ ! "${VERSION}" =~ ^v[0-9]{4}\.W[0-9]{2}(\.[0-9]+)?$ ]]; then
+            echo "::error::Unexpected snapshot version format: ${VERSION}"
+            exit 1
+          fi
+
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+          echo "title=${TITLE}" >> "${GITHUB_OUTPUT}"
+
+          if gh release view "${VERSION}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+            echo "Release ${VERSION} already exists in ${GITHUB_REPOSITORY}; skipping."
+            echo "already_published=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "New snapshot ${VERSION} ready for publication."
+            echo "already_published=false" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Download and verify snapshot artifacts
+        if: steps.check.outputs.already_published == 'false'
+        shell: bash
+        run: |
+          set -euo pipefail
+          API="${API_BASE_URL%/}"
+          VER="${{ steps.check.outputs.version }}"
+          OUT_DIR="${RUNNER_TEMP}/release-assets"
+          mkdir -p "${OUT_DIR}"
+
+          python3 - <<'PY' "/tmp/latest_snapshot.json" "${OUT_DIR}/RELEASE_NOTES.md" "${OUT_DIR}/ASSET_PATHS.txt"
+          import json, sys
+          meta = json.load(open(sys.argv[1], encoding="utf-8"))
+          open(sys.argv[2], "w", encoding="utf-8").write(meta["release_notes_md"])
+          paths = [
+              meta["bundle_download_path"],
+              meta["sha256sums_download_path"],
+              f"/v1/snapshots/{meta['version']}/files/manifest.json",
+          ]
+          for f in meta["files"]:
+              paths.append(f["download_path"])
+          seen = set()
+          with open(sys.argv[3], "w", encoding="utf-8") as fh:
+              for p in paths:
+                  if p not in seen:
+                      seen.add(p)
+                      fh.write(p + "\n")
+          PY
+
+          while IFS= read -r rel_path; do
+            fname="$(basename "${rel_path}")"
+            echo "Downloading ${fname} ..."
+            curl -fsSL --retry 3 --retry-delay 5 "${API}${rel_path}" -o "${OUT_DIR}/${fname}"
+          done < "${OUT_DIR}/ASSET_PATHS.txt"
+
+          rm -f "${OUT_DIR}/ASSET_PATHS.txt"
+          python3 scripts/verify_snapshot.py --dir "${OUT_DIR}" --require-all
+
+      - name: Generate keyless OIDC build provenance attestation
+        if: steps.check.outputs.already_published == 'false'
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: |
+            ${{ runner.temp }}/release-assets/bundle.tar.gz
+            ${{ runner.temp }}/release-assets/*.csv.gz
+            ${{ runner.temp }}/release-assets/*.mmdb
+            ${{ runner.temp }}/release-assets/manifest.json
+            ${{ runner.temp }}/release-assets/SHA256SUMS.txt
+
+      - name: Mint mr-vegapunk GitHub App token
+        if: steps.check.outputs.already_published == 'false'
+        id: vegapunk
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ vars.VEGAPUNK_CLIENT_ID || 'Iv23li4BXFvpVa86toEJ' }}
+          private-key: ${{ secrets.VEGAPUNK_PRIVATE_KEY }}
+          permission-contents: write
+
+      - name: Publish GitHub Release as mr-vegapunk
+        if: steps.check.outputs.already_published == 'false'
+        env:
+          GH_TOKEN: ${{ steps.vegapunk.outputs.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          VER="${{ steps.check.outputs.version }}"
+          TITLE="${{ steps.check.outputs.title }}"
+          OUT_DIR="${RUNNER_TEMP}/release-assets"
+          NOTES_FILE="${OUT_DIR}/RELEASE_NOTES.md"
+
+          # Create as draft first, upload all verified assets, then publish atomically
+          gh release create "${VER}" \
+            "${OUT_DIR}/bundle.tar.gz" \
+            "${OUT_DIR}"/*.csv.gz \
+            "${OUT_DIR}"/*.mmdb \
+            "${OUT_DIR}/manifest.json" \
+            "${OUT_DIR}/SHA256SUMS.txt" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --title "${TITLE}" \
+            --notes-file "${NOTES_FILE}" \
+            --draft
+
+          gh release edit "${VER}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --draft=false \
+            --latest
