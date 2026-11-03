@@ -87,12 +87,13 @@ Datasets are compiled directly from 25 authoritative public Internet registries,
 
 ## Repository Structure & Documentation
 
+- [`CREDITS.md`](./CREDITS.md) · [`NOTICE`](./NOTICE) — Complete third-party data ownership, copyright, attribution, and trademark notices across all 25 upstream sources and open format specifications
 - [`docs/FORMAT_SPEC.md`](./docs/FORMAT_SPEC.md) — Technical file and binary schema specification
 - [`docs/DATA_POLICY.md`](./docs/DATA_POLICY.md) — Upstream registry provenance, normalization rules, and operator correction policy
 - [`docs/TERMS.md`](./docs/TERMS.md) — Terms of Use and geolocation accuracy disclaimer
 - [`docs/PRIVACY.md`](./docs/PRIVACY.md) — Dataset and `https://dgip.daviante.org` API Privacy Policy
 - [`docs/SECURITY.md`](./docs/SECURITY.md) — Vulnerability disclosure and artifact verification guide
 - [`scripts/verify_snapshot.py`](./scripts/verify_snapshot.py) — Standalone release checksum and archive verifier
-- [`LICENSE`](./LICENSE) — PDDL v1.0 (datasets) and Apache-2.0 (scripts, workflows, and documentation)
+- [`LICENSE`](./LICENSE) — PDDL v1.0 (Daviante compilation work, subject to upstream source terms in [`CREDITS.md`](./CREDITS.md)) and Apache-2.0 (scripts, workflows, and documentation)
 
 Maintained by **Daviante** (`https://daviante.org`) — Contact: `code@daviante.org`.

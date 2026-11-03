@@ -10,7 +10,7 @@ By downloading datasets from `daviante-org/dgip-data` or querying `https://dgip.
 
 ## 1. Licensing and Permitted Use
 
-1. **Datasets**: Weekly snapshot archives published under `daviante-org/dgip-data` Releases are made available under the licensing terms set out in [LICENSE](../LICENSE), subject to upstream Regional Internet Registry conditions described in [DATA_POLICY.md](./DATA_POLICY.md).
+1. **Datasets**: Weekly snapshot archives published under `daviante-org/dgip-data` Releases are made available under the licensing terms set out in [LICENSE](../LICENSE), subject to upstream Regional Internet Registry, operator geofeed, and security-feed conditions documented in [CREDITS.md](../CREDITS.md), [NOTICE](../NOTICE), and [DATA_POLICY.md](./DATA_POLICY.md). Daviante claims no ownership over third-party upstream records and does not transfer or sublicense rights belonging to upstream providers.
 2. **Software and Documentation**: Scripts, specifications, and workflow definitions in this repository are licensed under the Apache License, Version 2.0.
 
 ---

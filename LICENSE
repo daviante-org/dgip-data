@@ -15,10 +15,12 @@ Commons Public Domain Dedication and License (PDDL) v1.0:
 
     https://opendatacommons.org/licenses/pddl/1-0/
 
-Underlying allocation and routing records originate from public Regional Internet
-Registry (RIR) delegation statistics (ARIN, RIPE NCC, APNIC, LACNIC, AFRINIC)
-and the RIPE NCC Routing Information Service (RIS), subject to their respective
-public data terms documented in DATA_POLICY.md.
+Underlying allocation, routing, RPKI, geofeed, and threat-intelligence records
+originate from third-party Regional Internet Registries, route collectors,
+network operators, and open security projects. Daviante does NOT claim ownership
+over third-party upstream data and does NOT transfer or sublicense any rights
+belonging to upstream providers; see CREDITS.md, NOTICE, and docs/DATA_POLICY.md
+for complete itemized ownership and attribution terms.
 
 
 2. SOFTWARE, WORKFLOWS, AND DOCUMENTATION
